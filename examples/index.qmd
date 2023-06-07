@@ -14,10 +14,11 @@ objects = []
 mu, sigma = raw"\mu", raw"\sigma"
 @objects objects [
     R bb"R" "real numbers"
-    n "n" "dimension"
-    Rn R^n "vector space over the $R of $n n"
+    dim "n" "dimension"
+    Rn R^dim "vector space over the $R of $dim n"
+    parameters raw"\theta" "vector of parameters" (domain=Rn,)
     normal raw"\mathrm{Normal}(#1,#2^2)" raw"normal distribution with mean $#1$ and standard deviation $#2$" (display_args=(mu, sigma), )
-] 
+]  
 
 write_texdefs("_symbols.tex", objects)
 Markdown.parse("""\```
@@ -36,11 +37,12 @@ $(DynamicLatex.symbols_table(objects))
 
 # Quarto extension
 
-At some point in the rendering process, latex commands which are not in a math environment
+At some point in the HTML rendering process, latex commands which are not in a math environment
 will be stripped out, such that one gets the below output.
 
 Input|Intended output|Output without quarto extension
 -|-|-
 `Consider $\Rn$, a \dRn.`|Consider $\Rn$, a \dRn.|Consider $\Rn$, a . 
 
+  
   
