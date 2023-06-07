@@ -1,1 +1,0 @@
-# DynamicLatex.jl

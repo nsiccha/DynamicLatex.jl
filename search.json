@@ -1,0 +1,9 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Example",
+    "section": "",
+    "text": "using DynamicLatex\nusing Markdown\n\nobjects = []\n@objects objects [\n    R raw\"\\mathbb{R}\" \"real numbers\"\n    n \"n\" \"dimension\"\n    Rn R^n \"Vectors space of the $R of $n n\"\n]\n\nMarkdown.parse(\"\"\"\\```\n$(DynamicLatex.texdefs(objects))\n\\```\n\"\"\")\n\n\\newcommand{\\R}{\\mathbb{R}}\n\\newcommand{\\dR}{real numbers}\n\\newcommand{\\iR}{real numbers $\\mathbb{R}$}\n\\newcommand{\\ER}{real numbers $\\mathbb{R}$}\n\\newcommand{\\Ris}{$\\mathbb{R}$ is the real numbers}\n\\newcommand{\\n}{n}\n\\newcommand{\\dn}{dimension}\n\\newcommand{\\in}{dimension $n$}\n\\newcommand{\\En}{dimension $n$}\n\\newcommand{\\nis}{$n$ is the dimension}\n\\newcommand{\\Rn}{{\\R}^{\\n}}\n\\newcommand{\\dRn}{Vectors space of the real numbers of dimension n}\n\\newcommand{\\iRn}{Vectors space of the real numbers of dimension n ${\\R}^{\\n}$}\n\\newcommand{\\ERn}{Vectors space of the real numbers of dimension n ${\\R}^{\\n}$}\n\\newcommand{\\Rnis}{${\\R}^{\\n}$ is the Vectors space of the real numbers of dimension n}\n\n\n\n\nMarkdown.parse(\"\"\"\\```\n$(DynamicLatex.symbols_table(objects))\n\\```\n\"\"\")\n\nsymbol|meaning|latex\n-|---|-\n$\\mathbb{R}$|real numbers|`\\R`\n$n$|dimension|`\\n`\n${\\R}^{\\n}$|Vectors space of the real numbers of dimension n|`\\Rn`"
+  }
+]

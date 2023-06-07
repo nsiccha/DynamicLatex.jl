@@ -1,9 +1,0 @@
----
-title: "Keep-latex Example"
-filters:
-  - keep-latex
----
-
-This filter tries to keep latex in quarto documents.
-
-

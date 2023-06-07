@@ -1,7 +1,0 @@
-*.html
-*.pdf
-*_files/
-/.luarc.json
-.quarto/
-_freeze
-_site
