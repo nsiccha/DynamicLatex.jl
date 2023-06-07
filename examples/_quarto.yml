@@ -1,0 +1,19 @@
+
+project:
+  title: DynamicLatex.jl
+  type: website
+  execute-dir: project
+jupyter: julia-1.9
+toc: true
+toc-location: left
+website:
+  sidebar:
+    style: "docked"
+    contents: auto
+format:
+  html:
+    code-line-numbers: true
+execute:
+  freeze: auto
+  daemon: 3600
+  error: true

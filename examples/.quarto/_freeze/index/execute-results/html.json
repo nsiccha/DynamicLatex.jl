@@ -1,0 +1,11 @@
+{
+  "hash": "0e010edec9e04dd46e42cc3c1ad77f8d",
+  "result": {
+    "markdown": "---\ntitle: Example\n---\n\n::: {.cell execution_count=1}\n``` {.julia .cell-code}\nusing DynamicLatex\n\nobjects = []\n@objects objects [\n    R raw\"\\mathbb{R}\" \"real numbers\"\n    n \"n\" \"dimension\"\n    Rn R^n \"Vectors space of the $R of $n n\"\n]\n\nDynamicLatex.texdefs(objects)\n```\n\n::: {.cell-output .cell-output-stderr}\n```\n[ Info: Precompiling DynamicLatex [27b4e752-aa1a-437f-8029-18168e97c89d]\n```\n:::\n\n::: {.cell-output .cell-output-display execution_count=2}\n```\n\"\\\\newcommand{\\\\R}{\\\\mathbb{R}}\\n\\\\newcommand{\\\\dR}{real numbers}\\n\\\\newcommand{\\\\iR}{real numbers \\$\\\\mathbb{R}\\$}\\n\\\\newcommand{\\\\ER}{real numbers \\$\\\\mathbb{R}\\$}\\n\\\\newcommand{\\\\Ris}{\\$\\\\mathbb{R}\\$ is the real numbers}\\n\\\\newcommand{\\\\n}{n}\\n\\\\newcommand{\\\\dn}{dimension}\\n\\\\newcommand{\\\\in}{dimensio\" ⋯ 153 bytes ⋯ \"mbers of dimension n}\\n\\\\newcommand{\\\\iRn}{Vectors space of the real numbers of dimension n \\${\\\\R}^{\\\\n}\\$}\\n\\\\newcommand{\\\\ERn}{Vectors space of the real numbers of dimension n \\${\\\\R}^{\\\\n}\\$}\\n\\\\newcommand{\\\\Rnis}{\\${\\\\R}^{\\\\n}\\$ is the Vectors space of the real numbers of dimension n}\\n\"\n```\n:::\n:::\n\n\n",
+    "supporting": [
+      "index_files"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}

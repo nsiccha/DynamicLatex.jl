@@ -1,0 +1,16 @@
+---
+title: Example
+---
+
+```{julia}
+using DynamicLatex
+
+objects = []
+@objects objects [
+    R raw"\mathbb{R}" "real numbers"
+    n "n" "dimension"
+    Rn R^n "Vectors space of the $R of $n n"
+]
+
+DynamicLatex.texdefs(objects)
+```
