@@ -93,6 +93,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
 
@@ -130,7 +132,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <div id="quarto-search" class="" title="Search"></div>
         </div>
         </div>
-    
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#generating-tex-commands-and-tables-of-symbols" id="toc-generating-tex-commands-and-tables-of-symbols" class="nav-link active" data-scroll-target="#generating-tex-commands-and-tables-of-symbols">Generating tex commands and tables of symbols</a></li>
+  <li><a href="#quarto-extension" id="toc-quarto-extension" class="nav-link" data-scroll-target="#quarto-extension">Quarto extension</a></li>
+  </ul>
+</nav>
 </nav>
 <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
@@ -141,7 +150,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Example</h1>
+<div class="quarto-title-block"><div><h1 class="title">Example</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
 </div>
 
 
@@ -156,26 +165,117 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
+<section id="generating-tex-commands-and-tables-of-symbols" class="level1">
+<h1>Generating tex commands and tables of symbols</h1>
 <div class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">using</span> <span class="bu">DynamicLatex</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a></span>
-<span id="cb1-3"><a href="#cb1-3"></a>objects <span class="op">=</span> []</span>
-<span id="cb1-4"><a href="#cb1-4"></a><span class="pp">@objects</span> objects [</span>
-<span id="cb1-5"><a href="#cb1-5"></a>    R <span class="st">raw"\mathbb{R}"</span> <span class="st">"real numbers"</span></span>
-<span id="cb1-6"><a href="#cb1-6"></a>    n <span class="st">"n"</span> <span class="st">"dimension"</span></span>
-<span id="cb1-7"><a href="#cb1-7"></a>    Rn R<span class="op">^</span>n <span class="st">"Vectors space of the </span><span class="sc">$</span>R<span class="st"> of </span><span class="sc">$</span>n<span class="st"> n"</span></span>
-<span id="cb1-8"><a href="#cb1-8"></a>]</span>
-<span id="cb1-9"><a href="#cb1-9"></a></span>
-<span id="cb1-10"><a href="#cb1-10"></a>DynamicLatex.<span class="fu">texdefs</span>(objects)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>[ Info: Precompiling DynamicLatex [27b4e752-aa1a-437f-8029-18168e97c89d]</code></pre>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="im">using</span> <span class="bu">Markdown</span></span>
+<span id="cb1-3"><a href="#cb1-3"></a> </span>
+<span id="cb1-4"><a href="#cb1-4"></a>objects <span class="op">=</span> []</span>
+<span id="cb1-5"><a href="#cb1-5"></a>mu, sigma <span class="op">=</span> <span class="st">raw"\mu"</span>, <span class="st">raw"\sigma"</span></span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="pp">@objects</span> objects [</span>
+<span id="cb1-7"><a href="#cb1-7"></a>    R bb<span class="st">"R"</span> <span class="st">"real numbers"</span></span>
+<span id="cb1-8"><a href="#cb1-8"></a>    n <span class="st">"n"</span> <span class="st">"dimension"</span></span>
+<span id="cb1-9"><a href="#cb1-9"></a>    Rn R<span class="op">^</span>n <span class="st">"vector space over the </span><span class="sc">$</span>R<span class="st"> of </span><span class="sc">$</span>n<span class="st"> n"</span></span>
+<span id="cb1-10"><a href="#cb1-10"></a>    normal <span class="st">raw"\mathrm{Normal}(#1,#2^2)"</span> <span class="st">raw"normal distribution with mean $#1$ and standard deviation $#2$"</span> (display_args<span class="op">=</span>(mu, sigma), )</span>
+<span id="cb1-11"><a href="#cb1-11"></a>] </span>
+<span id="cb1-12"><a href="#cb1-12"></a></span>
+<span id="cb1-13"><a href="#cb1-13"></a><span class="fu">write_texdefs</span>(<span class="st">"_symbols.tex"</span>, objects)</span>
+<span id="cb1-14"><a href="#cb1-14"></a>Markdown.<span class="fu">parse</span>(<span class="st">"""\```</span></span>
+<span id="cb1-15"><a href="#cb1-15"></a><span class="sc">$</span>(DynamicLatex.<span class="fu">texdefs</span>(objects))</span>
+<span id="cb1-16"><a href="#cb1-16"></a><span class="st">\```"""</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="14">
+<pre><code>\newcommand{\R}{\mathbb{R}}
+\newcommand{\dR}{real numbers}
+\newcommand{\iR}{real numbers $\mathbb{R}$}
+\newcommand{\ER}{real numbers $\mathbb{R}$}
+\newcommand{\Ris}{$\mathbb{R}$ is the real numbers}
+\newcommand{\n}{n}
+\newcommand{\dn}{dimension}
+\newcommand{\in}{dimension $n$}
+\newcommand{\En}{dimension $n$}
+\newcommand{\nis}{$n$ is the dimension}
+\newcommand{\Rn}{{\R}^{\n}}
+\newcommand{\dRn}{vector space over the real numbers of dimension n}
+\newcommand{\iRn}{vector space over the real numbers of dimension n ${\R}^{\n}$}
+\newcommand{\ERn}{vector space over the real numbers of dimension n ${\R}^{\n}$}
+\newcommand{\Rnis}{${\R}^{\n}$ is the vector space over the real numbers of dimension n}
+\newcommand{\normal}[2]{\mathrm{Normal}(#1,#2^2)}
+\newcommand{\dnormal}[2]{normal distribution with mean $#1$ and standard deviation $#2$}
+</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="2">
-<pre><code>"\\newcommand{\\R}{\\mathbb{R}}\n\\newcommand{\\dR}{real numbers}\n\\newcommand{\\iR}{real numbers \$\\mathbb{R}\$}\n\\newcommand{\\ER}{real numbers \$\\mathbb{R}\$}\n\\newcommand{\\Ris}{\$\\mathbb{R}\$ is the real numbers}\n\\newcommand{\\n}{n}\n\\newcommand{\\dn}{dimension}\n\\newcommand{\\in}{dimensio" ⋯ 153 bytes ⋯ "mbers of dimension n}\n\\newcommand{\\iRn}{Vectors space of the real numbers of dimension n \${\\R}^{\\n}\$}\n\\newcommand{\\ERn}{Vectors space of the real numbers of dimension n \${\\R}^{\\n}\$}\n\\newcommand{\\Rnis}{\${\\R}^{\\n}\$ is the Vectors space of the real numbers of dimension n}\n"</code></pre>
+</div>
+<div class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">write_symbols_table</span>(<span class="st">"_symbols.md"</span>, objects);</span>
+<span id="cb3-2"><a href="#cb3-2"></a>Markdown.<span class="fu">parse</span>(<span class="st">"""\```</span></span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="sc">$</span>(DynamicLatex.<span class="fu">symbols_table</span>(objects))</span>
+<span id="cb3-4"><a href="#cb3-4"></a><span class="st">\```"""</span>)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="15">
+<pre><code>symbol|meaning|latex
+-|---|-
+$\mathbb{R}$|real numbers|`\R`
+$n$|dimension|`\n`
+${\R}^{\n}$|vector space over the real numbers of dimension n|`\Rn`
+$\normal{\mu}{\sigma}$|\dnormal{\mu}{\sigma}|`\normal{\mu}{\sigma}`
+</code></pre>
 </div>
 </div>
+<table class="table">
+<thead>
+<tr class="header">
+<th>symbol</th>
+<th>meaning</th>
+<th>latex</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(\mathbb{R}\)</span></td>
+<td>real numbers</td>
+<td><code>\R</code></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(n\)</span></td>
+<td>dimension</td>
+<td><code>\n</code></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\({\mathbb{R}}^{n}\)</span></td>
+<td>vector space over the real numbers of dimension n</td>
+<td><code>\Rn</code></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\mathrm{Normal}(\mu,\sigma^2)\)</span></td>
+<td>normal distribution with mean <span class="math inline">\(\mu\)</span> and standard deviation <span class="math inline">\(\sigma\)</span> </td>
+<td><code>\normal{\mu}{\sigma}</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="quarto-extension" class="level1">
+<h1>Quarto extension</h1>
+<p>At some point in the rendering process, latex commands which are not in a math environment will be stripped out, such that one gets the below output.</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Input</th>
+<th>Intended output</th>
+<th>Output without quarto extension</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>Consider $\Rn$, a \dRn.</code></td>
+<td>Consider <span class="math inline">\({\mathbb{R}}^{n}\)</span>, a vector space over the real numbers of dimension n .</td>
+<td>Consider <span class="math inline">\({\mathbb{R}}^{n}\)</span>, a .</td>
+</tr>
+</tbody>
+</table>
 
 
+<!-- -->
+
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -257,6 +357,57 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
   function tippyHover(el, contentFn) {
     const config = {
       allowHTML: true,
@@ -410,7 +561,55 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
 });
-</script>
+</script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb5" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb5-1"><a href="#cb5-1"></a><span class="co">---</span></span>
+<span id="cb5-2"><a href="#cb5-2"></a><span class="an">title:</span><span class="co"> Example</span></span>
+<span id="cb5-3"><a href="#cb5-3"></a><span class="an">filters:</span></span>
+<span id="cb5-4"><a href="#cb5-4"></a><span class="co">    - ../quarto-extension/_extensions/keep-latex/keep-latex.lua</span></span>
+<span id="cb5-5"><a href="#cb5-5"></a><span class="co">---</span></span>
+<span id="cb5-6"><a href="#cb5-6"></a></span>
+<span id="cb5-7"><a href="#cb5-7"></a><span class="fu"># Generating tex commands and tables of symbols</span></span>
+<span id="cb5-8"><a href="#cb5-8"></a></span>
+<span id="cb5-11"><a href="#cb5-11"></a><span class="in">```{julia}</span></span>
+<span id="cb5-12"><a href="#cb5-12"></a>using DynamicLatex</span>
+<span id="cb5-13"><a href="#cb5-13"></a>using Markdown</span>
+<span id="cb5-14"><a href="#cb5-14"></a> </span>
+<span id="cb5-15"><a href="#cb5-15"></a>objects = []</span>
+<span id="cb5-16"><a href="#cb5-16"></a>mu, sigma = raw<span class="ot">"</span><span class="st">\mu</span><span class="ot">"</span>, raw<span class="ot">"</span><span class="ch">\s</span><span class="st">igma</span><span class="ot">"</span></span>
+<span id="cb5-17"><a href="#cb5-17"></a><span class="dt">@objects</span> objects [</span>
+<span id="cb5-18"><a href="#cb5-18"></a>    R bb<span class="ot">"</span><span class="st">R</span><span class="ot">"</span> <span class="ot">"</span><span class="st">real numbers</span><span class="ot">"</span></span>
+<span id="cb5-19"><a href="#cb5-19"></a>    n <span class="ot">"</span><span class="st">n</span><span class="ot">"</span> <span class="ot">"</span><span class="st">dimension</span><span class="ot">"</span></span>
+<span id="cb5-20"><a href="#cb5-20"></a>    Rn R^n <span class="ot">"</span><span class="st">vector space over the </span><span class="dt">$R</span><span class="st"> of </span><span class="dt">$n</span><span class="st"> n</span><span class="ot">"</span></span>
+<span id="cb5-21"><a href="#cb5-21"></a>    normal raw<span class="ot">"</span><span class="st">\mathrm{Normal}(#1,#2^2)</span><span class="ot">"</span> raw<span class="ot">"</span><span class="st">normal distribution with mean </span><span class="dt">$#1</span><span class="st">$ and standard deviation </span><span class="dt">$#2</span><span class="wa">$"</span><span class="st"> (display_args=(mu, sigma), )</span></span>
+<span id="cb5-22"><a href="#cb5-22"></a><span class="st">] </span></span>
+<span id="cb5-23"><a href="#cb5-23"></a></span>
+<span id="cb5-24"><a href="#cb5-24"></a><span class="st">write_texdefs(</span><span class="ot">"</span>_symbols.tex<span class="ot">"</span><span class="st">, objects)</span></span>
+<span id="cb5-25"><a href="#cb5-25"></a><span class="st">Markdown.parse(</span><span class="ot">"""</span>\<span class="ot">```</span></span>
+<span id="cb5-26"><a href="#cb5-26"></a><span class="wa">$(D</span><span class="st">ynamicLatex.texdefs(objects))</span></span>
+<span id="cb5-27"><a href="#cb5-27"></a><span class="st">\`</span><span class="ot">``</span><span class="st">""")</span></span>
+<span id="cb5-28"><a href="#cb5-28"></a><span class="ot">```</span></span>
+<span id="cb5-29"><a href="#cb5-29"></a>{{&lt; include _symbols.tex &gt;}}</span>
+<span id="cb5-30"><a href="#cb5-30"></a></span>
+<span id="cb5-33"><a href="#cb5-33"></a><span class="in">```{julia}</span></span>
+<span id="cb5-34"><a href="#cb5-34"></a><span class="st">write_symbols_table("_symbols.md", objects);</span></span>
+<span id="cb5-35"><a href="#cb5-35"></a><span class="st">Markdown.parse("""\`</span><span class="ot">``</span></span>
+<span id="cb5-36"><a href="#cb5-36"></a><span class="wa">$(D</span><span class="st">ynamicLatex.symbols_table(objects))</span></span>
+<span id="cb5-37"><a href="#cb5-37"></a><span class="st">\`</span><span class="ot">``</span><span class="st">""")  </span></span>
+<span id="cb5-38"><a href="#cb5-38"></a><span class="ot">```</span></span>
+<span id="cb5-39"><a href="#cb5-39"></a>{{&lt; include _symbols.md &gt;}}</span>
+<span id="cb5-40"><a href="#cb5-40"></a></span>
+<span id="cb5-41"><a href="#cb5-41"></a><span class="co"># Quarto extension</span></span>
+<span id="cb5-42"><a href="#cb5-42"></a></span>
+<span id="cb5-43"><a href="#cb5-43"></a>At some point in the rendering process, latex commands which are <span class="ot">not</span> in a math environment</span>
+<span id="cb5-44"><a href="#cb5-44"></a>will be stripped out, such that one gets the below output.</span>
+<span id="cb5-45"><a href="#cb5-45"></a></span>
+<span id="cb5-46"><a href="#cb5-46"></a>Input|Intended output|Output without quarto extension</span>
+<span id="cb5-47"><a href="#cb5-47"></a>-|-|-</span>
+<span id="cb5-48"><a href="#cb5-48"></a><span class="ot">`</span><span class="st">Consider </span><span class="wa">$\R</span><span class="st">n</span><span class="wa">$,</span><span class="st"> a </span><span class="ch">\d</span><span class="st">Rn.</span><span class="ot">`</span>|Consider <span class="wa">$\R</span><span class="dt">n</span><span class="wa">$,</span> a \dRn.|Consider <span class="wa">$\R</span><span class="dt">n</span><span class="wa">$,</span> a . </span>
+<span id="cb5-49"><a href="#cb5-49"></a></span>
+<span id="cb5-50"><a href="#cb5-50"></a>  </span>
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
 </div> <!-- /content -->
 
 

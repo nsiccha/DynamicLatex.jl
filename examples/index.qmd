@@ -1,16 +1,46 @@
 ---
 title: Example
+filters:
+    - ../quarto-extension/_extensions/keep-latex/keep-latex.lua
 ---
+
+# Generating tex commands and tables of symbols
 
 ```{julia}
 using DynamicLatex
-
+using Markdown
+ 
 objects = []
+mu, sigma = raw"\mu", raw"\sigma"
 @objects objects [
-    R raw"\mathbb{R}" "real numbers"
+    R bb"R" "real numbers"
     n "n" "dimension"
-    Rn R^n "Vectors space of the $R of $n n"
-]
+    Rn R^n "vector space over the $R of $n n"
+    normal raw"\mathrm{Normal}(#1,#2^2)" raw"normal distribution with mean $#1$ and standard deviation $#2$" (display_args=(mu, sigma), )
+] 
 
-DynamicLatex.texdefs(objects)
+write_texdefs("_symbols.tex", objects)
+Markdown.parse("""\```
+$(DynamicLatex.texdefs(objects))
+\```""")
 ```
+{{< include _symbols.tex >}}
+
+```{julia}
+write_symbols_table("_symbols.md", objects);
+Markdown.parse("""\```
+$(DynamicLatex.symbols_table(objects))
+\```""")  
+```
+{{< include _symbols.md >}}
+
+# Quarto extension
+
+At some point in the rendering process, latex commands which are not in a math environment
+will be stripped out, such that one gets the below output.
+
+Input|Intended output|Output without quarto extension
+-|-|-
+`Consider $\Rn$, a \dRn.`|Consider $\Rn$, a \dRn.|Consider $\Rn$, a . 
+
+  

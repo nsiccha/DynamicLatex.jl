@@ -1,8 +1,11 @@
 module DynamicLatex
 
-export @objects, write_texdefs, write_symbols
+export @objects, write_texdefs, write_symbols_table, @bb_str, @rm_str
 
 using DynamicObjects
+
+macro bb_str(x) raw"\mathbb{"*x*"}" end
+macro rm_str(x) raw"\mathrm{"*x*"}" end
 
 struct Head{T} end
 macro Head_str(x) Head{Symbol(x)} end
@@ -101,11 +104,12 @@ function object_f(objects_list, name, value, description="")
         $ename = $elist[end]
     end
 end
-function object_f(objects_list, name, value, description, ekwargs)
+function object_f(objects_list, name, value, description, kwargs)
     elist = esc(objects_list)
     sname = String(name)
     ename = esc(name)
     evalue = esc(value)
+    ekwargs = esc(kwargs)
     quote
         push!(
             $elist, 
@@ -144,7 +148,7 @@ symbol|meaning|latex
         line = if object.texnargs > 0
             !hasproperty(object, :display_args) && continue
             t = tex(object(object.display_args...))
-            d = "$(object.dtex){$(tex(object.display_args[1]))}"
+            d = "$(object.dtex)$(join(curly_wrap.(object.display_args)))"
             "$(inline_math(t))|$(d)|`$(t)`"
         else
             "$(object.emd_body)|$(object.description)|`$(object.tex)`"

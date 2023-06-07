@@ -13,6 +13,7 @@ website:
 format:
   html:
     code-line-numbers: true
+    code-tools: true
 execute:
   freeze: auto
   daemon: 3600
