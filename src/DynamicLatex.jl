@@ -1,6 +1,6 @@
 module DynamicLatex
 
-export @objects, write_texdefs, write_symbols_table, @bb_str, @rm_str
+export @objects, write_texdefs, write_symbols_table, @bb_str, @rm_str, times, sup, sub
 
 using DynamicObjects
 
@@ -16,6 +16,8 @@ description(what) = ""
 (what::Latex)(args...) = Expression(:call, (what, args...))
 Base.:^(lhs::Latex, rhs) = Expression(:call, (:^, lhs, rhs))
 times(lhs, rhs) = Expression(:call, (raw"\times", lhs, rhs))
+sup(lhs, rhs) = Expression(:call, (raw"^", lhs, rhs))
+sub(lhs, rhs) = Expression(:call, (raw"_", lhs, rhs))
 texdef(what::Latex) = what.texnargs > 0 ? """
 \\newcommand{$(what.tex)}$(what.texargs){$(what.texbody)}
 \\newcommand{$(what.dtex)}$(what.texargs){$(what.description)}

@@ -5,7 +5,8 @@ project:
   execute-dir: project
 jupyter: julia-1.9
 toc: true
-toc-location: left
+toc-expand: true
+toc-location: right
 website:
   sidebar:
     style: "docked"
