@@ -153,9 +153,9 @@ $(join(cols, "|"))
             !hasproperty(object, :display_args) && continue
             t = tex(object(object.display_args...))
             d = "$(object.dtex)$(join(curly_wrap.(object.display_args)))"
-            "$(inline_math(t))", d, "`$(t)`"
+            ["$(inline_math(t))", d, "`$(t)`"]
         else
-            "$(object.emd_body)", "$(object.description)", "`$(object.tex)`"
+            ["$(object.emd_body)", "$(object.description)", "`$(object.tex)`"]
         end
         line = join("|", latex ? cells : cells[1:end-1])
         # object.texnargs > 0 && continue
