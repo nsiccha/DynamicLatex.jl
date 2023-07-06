@@ -19,14 +19,14 @@ times(lhs, rhs) = Expression(:call, (raw"\times", lhs, rhs))
 sup(lhs, rhs) = Expression(:call, (raw"^", lhs, rhs))
 sub(lhs, rhs) = Expression(:call, (raw"_", lhs, rhs))
 texdef(what::Latex) = what.texnargs > 0 ? """
-\\newcommand{$(what.tex)}$(what.texargs){$(what.texbody)}
-\\newcommand{$(what.dtex)}$(what.texargs){$(what.description)}
+\\providecommand{$(what.tex)}$(what.texargs){$(what.texbody)}
+\\providecommand{$(what.dtex)}$(what.texargs){$(what.description)}
 """ : """
-\\newcommand{$(what.tex)}$(what.texargs){$(what.texbody)}
-\\newcommand{$(what.dtex)}$(what.texargs){$(what.description)}
-\\newcommand{$(what.itex)}{$(what.description) $(what.md_body)}
-\\newcommand{$(what.etex)}{$(what.description) $(what.emd_body)}
-\\newcommand{$(what.tex)is}{$(what.md_body) is the $(what.description)}
+\\providecommand{$(what.tex)}$(what.texargs){$(what.texbody)}
+\\providecommand{$(what.dtex)}$(what.texargs){$(what.description)}
+\\providecommand{$(what.itex)}{$(what.description) $(what.md_body)}
+\\providecommand{$(what.etex)}{$(what.description) $(what.emd_body)}
+\\providecommand{$(what.tex)is}{$(what.md_body) is the $(what.description)}
 """
 @dynamic_object Object <: Latex name value description=""
 tex(what::Object) = "\\$(what.name)"
