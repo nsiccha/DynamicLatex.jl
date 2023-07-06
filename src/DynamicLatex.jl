@@ -140,28 +140,31 @@ texdefs(objects) = join(texdef.(objects))
 write_texdefs(tex_path, objects) = open(tex_path, "w") do fd
     write(fd, texdefs(objects))
 end
-function symbols_table(objects)
+function symbols_table(objects; latex=true)
+    cols = ["symbol", "meaning"]
+    latex && push!(cols, "latex")
     rv = """
-symbol|meaning|latex
+$(join(cols, "|"))
 -|---|-
 """
     for object in objects
         object.description == "" && continue
-        line = if object.texnargs > 0
+        cells = if object.texnargs > 0
             !hasproperty(object, :display_args) && continue
             t = tex(object(object.display_args...))
             d = "$(object.dtex)$(join(curly_wrap.(object.display_args)))"
-            "$(inline_math(t))|$(d)|`$(t)`"
+            "$(inline_math(t))", d, "`$(t)`"
         else
-            "$(object.emd_body)|$(object.description)|`$(object.tex)`"
+            "$(object.emd_body)", "$(object.description)", "`$(object.tex)`"
         end
+        line = join("|", latex ? cells : cells[1:end-1])
         # object.texnargs > 0 && continue
         rv = rv * line * "\n"
     end
     rv
 end 
-write_symbols_table(md_path, objects) = open(md_path, "w") do fd
-    write(fd, symbols_table(objects))
+write_symbols_table(md_path, objects; kwargs...) = open(md_path, "w") do fd
+    write(fd, symbols_table(objects; kwargs...))
 end
 
 end
