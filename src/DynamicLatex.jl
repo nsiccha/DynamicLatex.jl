@@ -157,7 +157,7 @@ $(join(cols, "|"))
         else
             ["$(object.emd_body)", "$(object.description)", "`$(object.tex)`"]
         end
-        line = join("|", latex ? cells : cells[1:end-1])
+        line = join(latex ? cells : cells[1:end-1], "|")
         # object.texnargs > 0 && continue
         rv = rv * line * "\n"
     end
