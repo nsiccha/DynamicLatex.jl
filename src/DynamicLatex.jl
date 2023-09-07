@@ -45,6 +45,7 @@ function emd_body(what::Object)
     end
     what.md_body 
 end
+# emd_body(::Head"eqs", what::Object) = inline_math(what.value, "=", what.domain)
 emd_body(::Head"domain", what::Object) = inline_math(what.value, raw"\in", what.domain)
 emd_body(::Head"maps", what::Object) = inline_math(what.value, ":", what.maps[1],raw"\to", what.maps[2])
 texnargs(what::Object) = maximum(
